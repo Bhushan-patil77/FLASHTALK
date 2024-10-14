@@ -5,6 +5,7 @@ const userModel = require('./models/userModel')
 const messageModel = require('./models/messageModel')
 const http = require('http');
 const socketIo = require('socket.io');
+const { Server } = require('socket.io');
 const cors = require('cors');
 require('dotenv').config();
 
@@ -23,12 +24,11 @@ const server = http.createServer(app);
 // 4. Middleware setup
 app.use(cors())
 
-const io = socketIo(server, {
+const io = new Server(server, {
   cors: {
-      origin: '*', // Update with your frontend URL
+      origin: '*', // Allow all origins
       methods: ['GET', 'POST'],
-      credentials: true
-  }
+  },
 });
 
 // 5. Define routes
