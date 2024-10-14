@@ -22,8 +22,11 @@ const app = express();
 const server = http.createServer(app);
 
 // 4. Middleware setup
-app.use(cors())
-
+app.use(cors({
+  origin: 'http://localhost:5174', // your frontend origin
+  methods: ['GET', 'POST'], // specify the allowed methods
+  credentials: true // if you need to include cookies in requests
+}));
 const io = new Server(server, {
   cors: {
       origin: '*', // Allow all origins
