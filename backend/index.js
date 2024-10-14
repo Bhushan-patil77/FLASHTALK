@@ -75,7 +75,7 @@ io.on('connection', (socket) => {
       content: msgObject.content
     });
   });
-
+ 
   socket.on('getPreviousMessages', async ({ senderId, receiverId }) => {
     try {
           console.log('sender and reciver are..', senderId, receiverId)
