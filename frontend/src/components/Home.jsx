@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { io } from 'socket.io-client';
-const socket = io('https://flashtalk-backend.vercel.app');
+const socket = io('https://flashtalk-backend-9jy77jolf-bhushan-patil77s-projects.vercel.app/');
 
 
 
