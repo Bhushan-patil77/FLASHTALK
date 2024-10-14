@@ -40,10 +40,6 @@ const io = socketIo(server, {
 const userRoutes = require('./routes/userRoutes');
 app.use('/', userRoutes);
 
-app.get('hello',(req, res)=>{
-  res.send('hii from server...')
-})
-
 // Track online users
 const onlineUsers = {};
 

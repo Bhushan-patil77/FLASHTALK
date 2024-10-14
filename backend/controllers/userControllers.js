@@ -21,6 +21,10 @@ exports.registerUser = async (req, res) => {
 
 }
 
+exports.demo = async (req, res) =>{
+  res.json({msg:'hello there, this is response from server...'})
+}
+
 exports.loginUser = async (req, res) => {
 
   try {
