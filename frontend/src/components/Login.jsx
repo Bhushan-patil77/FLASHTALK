@@ -18,7 +18,7 @@ function Login() {
 
        console.log(user);
 
-       fetch('http://localhost:3000/loginUser', {method:'post', headers:{'Content-Type': 'application/json'}, body:JSON.stringify(user)})
+       fetch('https://flashtalk-backend.vercel.app/loginUser', {method:'post', headers:{'Content-Type': 'application/json'}, body:JSON.stringify(user)})
        .then((response)=>{return response.json()})
        .then((data)=>{
         if(data.message=='User authenticated...')

@@ -19,7 +19,7 @@ function Register() {
 
         user.socketId=''
 
-             fetch('http://localhost:3000/registerUser', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(user) })
+             fetch('https://flashtalk-backend.vercel.app/registerUser', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(user) })
             .then((response) => { return response.json() })
             .then((data) => {
                 console.log(data);

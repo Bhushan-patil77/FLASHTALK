@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { io } from 'socket.io-client';
-const socket = io('http://localhost:3000');
+const socket = io('https://flashtalk-backend.vercel.app');
 
 
 
@@ -155,7 +155,7 @@ function Home() {
 
 
     const getUsers = () => {
-        fetch('http://localhost:3000/getUsers')
+        fetch('https://flashtalk-backend.vercel.app/getUsers')
             .then((response) => { return response.json() })
             .then((data) => {
                 if (data.message == 'all users') {
@@ -182,7 +182,7 @@ function Home() {
     };
 
     const getRecipientSocketId = (userId) =>{
-        fetch('http://localhost:3000/getRecipientSocketId', {method:'post', headers:{'Content-Type': 'application/json'}, body:JSON.stringify({userId:userId})})
+        fetch('https://flashtalk-backend.vercel.app/getRecipientSocketId', {method:'post', headers:{'Content-Type': 'application/json'}, body:JSON.stringify({userId:userId})})
         .then((response) => { return response.json() })
         .then((data) => { 
             data.user.socketId!=='' ? setRecipientSocketId(data.user.socketId): alert(`${data.user.username} is offline...`)
