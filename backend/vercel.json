@@ -1,15 +1,36 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "index.js",
-        "use": "@vercel/node"
+  "version": 2,
+  "builds": [
+    {
+      "src": "../frontend/package.json",  
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "../frontend/dist"  
       }
-    ],
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "index.js"
-      }
-    ]
+    },
+    {
+      "src": "package.json",  
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",  
+      "dest": "index.js"  
+    },
+    {
+      "src": "/(.*)",
+      "dest": "../frontend/index.html"  
+    }
+  ],
+  "env": {
+    "PORT": 3000,
+    "DB_URL": "mongodb+srv://bhushanravindrapatil77:iGA2Yuhg5626aHr7@cluster0.ap69s.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+  },
+  "functions": {
+    "api/**/*.js": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
   }
+}
