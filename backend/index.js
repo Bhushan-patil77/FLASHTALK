@@ -23,14 +23,14 @@ const server = http.createServer(app);
 // 4. Middleware setup
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:5173', // Update with your frontend URL
+  origin: '*', // Update with your frontend URL
   methods: ['GET', 'POST'],
   credentials: true
 }));
 
 const io = socketIo(server, {
   cors: {
-      origin: 'http://localhost:5173', // Update with your frontend URL
+      origin: '*', // Update with your frontend URL
       methods: ['GET', 'POST'],
       credentials: true
   }
