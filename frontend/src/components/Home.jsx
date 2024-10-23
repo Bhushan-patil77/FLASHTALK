@@ -6,7 +6,7 @@ const socket = io('https://lets-chat-backend-od7s.onrender.com');
 
 
 function Home() {
-  const [clickedUserId, setClickedUserId] = useState('')
+  const [clickedUserInfo, setClickedUserInfo] = useState('')
   const [connectedUsers, setConnectedUsers] = useState([]);
   const [username, setUsername] = useState('');
   const [message, setMessage] = useState('');
@@ -173,19 +173,19 @@ function Home() {
 
     <div className="flex h-screen bg-gray-900 text-gray-100">
       {/* Sidebar (Recent Chats) */}
-      <div className="w-1/3 border-r border-gray-700 bg-gray-800">
+      <div className="w-1/3 border-r border-gray-700 border-2  bg-gray-800">
         <div className="flex items-center justify-between p-4 bg-gray-800">
           <h2 className="text-lg font-semibold text-gray-200">Chats</h2>
           <button className="text-blue-400 hover:text-blue-600">New Chat</button>
         </div>
 
         {/* Recent Chats List */}
-        <div className="overflow-y-auto h-full">
+        <div className=" ">
           {/* Chat Item */}
           {
             connectedUsers && connectedUsers.map((user, index) => (
 
-              <div key={index} className={`p-4 border-b border-gray-700 cursor-pointer hover:bg-gray-700 ${loggedInUser.username === user.username ? 'hidden' : 'flex'}  `} onClick={() => { getRecipient(user._id); localStorage.setItem('clickedUser', user._id) }}>
+              <div key={index} className={`p-4 border-b border-gray-700 cursor-pointer hover:bg-gray-700 ${loggedInUser.username === user.username ? 'hidden' : ''} ${clickedUserInfo && clickedUserInfo.username === user.username ? 'bg-gray-700' : ''}  `} onClick={() => { getRecipient(user._id); localStorage.setItem('clickedUser', user._id); setClickedUserInfo(user) }}>
                 <div className="flex items-center">
                   <img src="https://via.placeholder.com/40" alt="Profile" className="w-12 h-12 rounded-full" />
                   <div className="ml-3 flex-1">
@@ -231,82 +231,66 @@ function Home() {
       </div>
 
       {/* Chat Window */}
-      <div className="flex-1 flex flex-col">
-        {/* Chat Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-700 bg-gray-800">
-          <div className="flex items-center">
-            <img
-              src="https://via.placeholder.com/40"
-              alt="Chat Profile"
-              className="w-12 h-12 rounded-full"
-            />
-            <div className="ml-3">
-              <h3 className="font-semibold text-gray-200">John Doe</h3>
-              <p className="text-xs text-gray-400">Online</p>
-            </div>
-          </div>
-          <button className="text-blue-400 hover:text-blue-600">More</button>
-        </div>
 
-        {/* Messages Section */}
-        <div className="flex-1 overflow-y-auto p-4 bg-gray-900">
+      {
+       
+        clickedUserInfo &&   <div className="flex-1 flex flex-col">
 
-          {/* Message bubble (incoming) */}
-          <div className="mb-4">
-            <div className="bg-gray-800 p-3 rounded-lg max-w-xs">
-              <p className="text-sm text-gray-200">Hello! How's it going?</p>
-            </div>
-            <span className="text-xs text-gray-400">10:30 AM</span>
-          </div>
+                            {/* Chat Header */}
+                            <div className="flex items-center justify-between p-4 border-b border-gray-700 bg-gray-800">
+                              <div className="flex items-center">
+                                <img
+                                  src="https://via.placeholder.com/40"
+                                  alt="Chat Profile"
+                                  className="w-12 h-12 rounded-full"
+                                />
+                                <div className="ml-3">
+                                  <h3 className="font-semibold text-gray-200">{clickedUserInfo && clickedUserInfo.username}</h3>
+                                  <p className="text-xs text-gray-400">Online</p>
+                                </div>
+                              </div>
+                              <button className="text-blue-400 hover:text-blue-600">More</button>
+                            </div>
 
-          {/* Message bubble (outgoing) */}
-          <div className="mb-4 text-right">
-            <div className="bg-blue-500 text-white p-3 rounded-lg max-w-xs ml-auto">
-              <p className="text-sm">All good! You?</p>
-            </div>
-            <span className="text-xs text-gray-400">10:32 AM</span>
-          </div>
+                            {/* Messages Section */}
+                            <div className="flex-1 overflow-y-auto no-scrollbar p-4 bg-gray-900">
 
-          {messages.map((msgObject, index) => (
+                              {
+                                messages.map((msgObject, index) => (
 
-            <div
-              key={index}
-              className={`flex mb-2 ${msgObject.sender?.userId === loggedInUser._id ? 'justify-end ' : 'justify-start'}`}
-            >
-              <div
-                className={` ${index == messages.length - 1 ? "lastMsg transition-all duration-300 transform scale-0" : ""}    relative max-w-[75%] p-2 rounded-lg text-white ${msgObject.sender.userId === loggedInUser._id
-                  ? 'bg-purple-600 rounded-tr-none'
-                  : 'bg-pink-600 rounded-tl-none '
-                  }`}
-              >
-                {msgObject.content}
-              </div>
+                                  <div key={index} className={`flex mb-2 ${msgObject.sender?.userId === loggedInUser._id ? 'justify-end ' : 'justify-start'}`} >
+                                    <div className={` ${index == messages.length - 1 ? "lastMsg transition-all duration-300 transform scale-0" : ""}    relative max-w-[75%] p-2 rounded-lg text-white break-words  ${msgObject.sender.userId === loggedInUser._id ? 'bg-blue-500 text-white p-3 rounded-lg max-w-xs ml-auto' : 'bg-gray-800 p-3 rounded-lg max-w-xs '}`} >
+                                      {msgObject.content}
+                                    </div>
+                                  </div>
 
 
-            </div>
+                                ))}
 
+                            </div>
 
-          ))}
+                            {/* Input Section */}
+                            <div className="border-t border-gray-700 p-4 bg-gray-800">
+                              <div className="flex">
+                                <input
+                                  type="text"
+                                  className="flex-1 border border-gray-600 rounded-l-lg p-2 bg-gray-700 text-gray-100 placeholder-gray-400 focus:outline-none"
+                                  placeholder="Type a message..."
+                                  value={message}
+                                  onChange={(e) => setMessage(e.target.value)}
+                                />
+                                <button className="bg-blue-500 text-white p-2 rounded-r-lg hover:bg-blue-600" onClick={sendMessage}>
+                                  Send
+                                </button>
+                              </div>
+                            </div>
 
-        </div>
+                          </div>
 
-        {/* Input Section */}
-        <div className="border-t border-gray-700 p-4 bg-gray-800">
-          <div className="flex">
-            <input
-              type="text"
-              className="flex-1 border border-gray-600 rounded-l-lg p-2 bg-gray-700 text-gray-100 placeholder-gray-400 focus:outline-none"
-              placeholder="Type a message..."
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            />
-            <button className="bg-blue-500 text-white p-2 rounded-r-lg hover:bg-blue-600"  onClick={sendMessage}>
-              Send
-            </button>
-          </div>
-        </div>
-      </div>
+      }
+
     </div>
+
   )
 }
 
